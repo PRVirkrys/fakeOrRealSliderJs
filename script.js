@@ -2,8 +2,6 @@
  * 1) CAPTURA ELEMENTOS
  ***********************/
 
-// Modals
-
 /**********************************
  * 2) ESTADO DEL JUEGO - VARIABLES
  **********************************/
@@ -12,6 +10,8 @@ let lives = 3;
 let score = 0;
 let success = 10;
 let index = 0;
+let timToJump = 2000;
+let inputEnabled = true;
 
 /***********************
  * 3) DATA (IMÁGENES)
@@ -186,7 +186,6 @@ function jumpToNextImg(time) {
 function imageValidation(userRes) {
   let feedbackTextElement = document.getElementById("feedbackText");
   let photoIsReal = photos[index].isReal;
-  let timToJump = 2000;
 
   // Foto real(true) y respuesta real(true)
   if (photoIsReal === true && userRes === true) {
@@ -239,6 +238,20 @@ function imageValidation(userRes) {
   }
 }
 
+// funcion que captura la respuesta del usuario, ya sea por click en los botones o por teclado, y llama a la función de validación de imagen
+function disabledButtons() {
+  const btnCanonElement = document.getElementById("btnCanon");
+  const btnFakeElement = document.getElementById("btnFake");
+  btnCanonElement.disabled = true;
+  btnFakeElement.disabled = true;
+  inputEnabled = false;
+  setTimeout(function () {
+    btnCanonElement.disabled = false;
+    btnFakeElement.disabled = false;
+    inputEnabled = true;
+  }, timToJump);
+}
+
 // captura respuesta del usuario (botones y teclado)
 function userRes() {
   const btnCanonElement = document.getElementById("btnCanon");
@@ -249,21 +262,26 @@ function userRes() {
   btnCanonElement.addEventListener("click", () => {
     userRes = true;
     imageValidation(userRes);
+    disabledButtons();
   });
 
   btnFakeElement.addEventListener("click", () => {
     userRes = false;
     imageValidation(userRes);
+    disabledButtons();
   });
 
   document.addEventListener("keydown", (event) => {
+    if (!inputEnabled) return;
     if (event.key === "r" || event.key === "R") {
       userRes = true;
       imageValidation(userRes);
+      disabledButtons();
     }
     if (event.key === "i" || event.key === "I") {
       userRes = false;
       imageValidation(userRes);
+      disabledButtons();
     }
   });
 }
