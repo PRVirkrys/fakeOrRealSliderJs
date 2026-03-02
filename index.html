@@ -49,7 +49,7 @@
             ←
           </button>
 
-          <img id="sceneImage" class="media__img" src="" alt="" />
+          <img id="sceneImage" class="media__img" src="#" alt="" />
 
           <button
             class="slider__btn slider__btn--right"
@@ -69,6 +69,15 @@
           <figcaption class="media__caption">
             <span class="scene-title" id="sceneTitle">Título de la imagen</span>
           </figcaption>
+          <div
+            class="feedback feedback--hidden"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <p class="feedback__text feedback__text--neutral" id="feedbackText">
+              Elige una opción para comenzar 👀
+            </p>
+          </div>
         </figure>
 
         <div class="question" aria-label="Pregunta">
@@ -85,12 +94,6 @@
           <button class="btn btn--danger" id="btnFake" type="button">
             ES IA 🤖
           </button>
-        </div>
-
-        <div class="feedback" aria-live="polite" aria-atomic="true">
-          <p class="feedback__text feedback__text--neutral" id="feedbackText">
-            Elige una opción para comenzar 👀
-          </p>
         </div>
 
         <footer class="footer">

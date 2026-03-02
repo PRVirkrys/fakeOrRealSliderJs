@@ -178,31 +178,62 @@ function userRes() {
 
 function resetFeebackImage() {
   let feedbackTextElement = document.getElementById("feedbackText");
+  feedbackTextElement.classList.remove("feedback__text--success");
+  feedbackTextElement.classList.remove("feedback__text--error");
+  feedbackTextElement.classList.add(".feedback__text--neutral");
   feedbackTextElement.textContent = "Elige una opción 👀";
 }
 
 function imageValidation(userRes) {
   let feedbackTextElement = document.getElementById("feedbackText");
   let photoIsReal = photos[index].isReal;
-  if (photoIsReal === userRes) {
+
+  // Foto real(true) y respuesta real(true)
+  if (photoIsReal === true && userRes === true) {
     console.log("Si es real");
     score += success;
     scoreCounter();
+    feedbackTextElement.classList.add("feedback__text--success");
+    feedbackTextElement.classList.replace(
+      "feedback__text--error",
+      "feedback__text--success",
+    );
     feedbackTextElement.textContent = "¡Correcto! Es una imagen real 📷";
-  } else if (photoIsReal === userRes) {
+  }
+  // Foto IA(false) y respuesta IA(false)
+  else if (photoIsReal === false && userRes === false) {
     console.log("Si la imagen es fake");
+    score += success;
     scoreCounter();
+    feedbackTextElement.classList.add("feedback__text--success");
+    feedbackTextElement.classList.replace(
+      "feedback__text--error",
+      "feedback__text--success",
+    );
     feedbackTextElement.textContent = "¡Correcto! Está generada por IA 🤖";
-  } else if (photoIsReal == true && userRes == false) {
-    feedbackTextElement.textContent = "Incorrecto. Es una imagen real 📷";
+  }
+  // Foto real(true) y respuesta IA(false)
+  else if (photoIsReal == true && userRes == false) {
     lives--;
     livesHearts(lives);
-  } else if (photoIsReal == false && userRes == true) {
+    feedbackTextElement.classList.add("feedback__text--error");
+    feedbackTextElement.classList.replace(
+      "feedback__text--success",
+      "feedback__text--error",
+    );
+    feedbackTextElement.textContent = "Incorrecto. Es una imagen real 📷";
+  }
+  // Foto IA(false) y respuesta real(true)
+  else if (photoIsReal == false && userRes == true) {
+    lives--;
+    livesHearts(lives);
+    feedbackTextElement.classList.add("feedback__text--error");
+    feedbackTextElement.classList.replace(
+      "feedback__text--success",
+      "feedback__text--error",
+    );
     feedbackTextElement.textContent = "Incorrecto. Está generada por IA 🤖";
     lives--;
-    livesHearts(lives);
-  } else {
-    feedbackTextElement.textContent = "Elige una opción para comenzar 👀";
   }
 }
 
