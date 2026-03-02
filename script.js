@@ -151,14 +151,28 @@ function userRes() {
   const btnCanonElement = document.getElementById("btnCanon");
   const btnFakeElement = document.getElementById("btnFake");
 
+  let userRes;
+
   btnCanonElement.addEventListener("click", () => {
-    let userRes = true;
+    userRes = true;
     imageValidation(userRes);
   });
 
   btnFakeElement.addEventListener("click", () => {
-    let userRes = false;
+    userRes = false;
     imageValidation(userRes);
+  });
+
+  //llamada al evento con keyboard para selccion de imagen
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "r" || event.key === "R") {
+      userRes = true;
+      imageValidation(userRes);
+    }
+    if (event.key === "i" || event.key === "I") {
+      userRes = false;
+      imageValidation(userRes);
+    }
   });
 }
 
