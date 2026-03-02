@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>¿Real o Generado por IA?</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js"></script>
+  </head>
+
+  <body>
+    <main class="app">
+      <header class="header">
+        <p class="badge">Juego</p>
+        <h1 class="title">¿Real o Generado por IA?</h1>
+        <p class="subtitle">
+          Mira la imagen con lupa 👀 y decide si es <strong>real</strong> o si
+          está <strong>generada por IA</strong>.
+        </p>
+      </header>
+
+      <section class="card" aria-label="Juego">
+        <div class="topbar">
+          <div class="progress">
+            <span class="progress__label">Imagen</span>
+            <span class="progress__value" id="sceneCounter"></span>
+          </div>
+
+          <div class="hud">
+            <div class="hud__item" aria-label="Puntos">
+              <span class="hud__label">Puntos</span>
+              <span class="hud__value" id="score"></span>
+            </div>
+            <div class="hud__item" aria-label="Vidas">
+              <span class="hud__label">Vidas</span>
+              <span class="hud__value" id="lives"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDER -->
+        <figure class="media" aria-label="Slider de imágenes">
+          <button
+            class="slider__btn slider__btn--left"
+            id="btnPrev"
+            type="button"
+            aria-label="Imagen anterior"
+          >
+            ←
+          </button>
+
+          <img id="sceneImage" class="media__img" src="" alt="" />
+
+          <button
+            class="slider__btn slider__btn--right"
+            id="btnNext"
+            type="button"
+            aria-label="Imagen siguiente"
+          >
+            →
+          </button>
+
+          <div class="slider__dots" aria-label="Indicador de posición">
+            <span class="dot dot--active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+
+          <figcaption class="media__caption">
+            <span class="scene-title" id="sceneTitle">Título de la imagen</span>
+          </figcaption>
+        </figure>
+
+        <div class="question" aria-label="Pregunta">
+          <p class="question__text">
+            ¿Esto es <strong>REAL</strong> o está
+            <strong>GENERADO POR IA</strong>?
+          </p>
+        </div>
+
+        <div class="actions" aria-label="Respuestas">
+          <button class="btn btn--primary" id="btnCanon" type="button">
+            ES REAL ✅
+          </button>
+          <button class="btn btn--danger" id="btnFake" type="button">
+            ES IA 🤖
+          </button>
+        </div>
+
+        <div class="feedback" aria-live="polite" aria-atomic="true">
+          <p class="feedback__text feedback__text--neutral" id="feedbackText">
+            Elige una opción para comenzar 👀
+          </p>
+        </div>
+
+        <footer class="footer">
+          <button class="btn btn--secondary" id="btnRestart" type="button">
+            Reiniciar 🔁
+          </button>
+
+          <p class="shortcuts" aria-label="Atajos de teclado">
+            Atajos: <kbd>R</kbd> real · <kbd>I</kbd> IA · <kbd>←</kbd>/<kbd
+              >→</kbd
+            >
+            cambiar
+          </p>
+        </footer>
+      </section>
+
+      <!-- Modal simple para Game Over -->
+      <section
+        class="modal modal--hidden"
+        id="gameOverModal"
+        aria-hidden="true"
+        aria-label="Game Over"
+      >
+        <div class="modal__backdrop"></div>
+        <div class="modal__panel" role="dialog" aria-modal="true">
+          <h2 class="modal__title">Game Over 💀</h2>
+          <p class="modal__text">
+            Te quedaste sin vidas. La IA se salió con la suya 🤖✨
+          </p>
+          <div class="modal__actions">
+            <button class="btn btn--primary" type="button">Reintentar</button>
+            <button class="btn btn--ghost" type="button">Cerrar</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
