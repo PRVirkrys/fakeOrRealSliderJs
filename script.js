@@ -3,11 +3,10 @@
  ***********************/
 
 // Modals
-const gameOverModalElement = document.getElementById("gameOverModal");
 
-/***********************
- * 2) ESTADO DEL JUEGO
- ***********************/
+/**********************************
+ * 2) ESTADO DEL JUEGO - VARIABLES
+ **********************************/
 
 let lives = 3;
 let score = 0;
@@ -38,6 +37,7 @@ let photos = [
  * 4) RENDER / UI (PINTAR DOM)
  ******************************/
 
+//Funcion que pinta y actualizar la imagen, src, alt y titulo.
 function updateScene() {
   const sceneImageElement = document.getElementById("sceneImage");
   const sceneTitleElement = document.getElementById("sceneTitle");
@@ -48,6 +48,7 @@ function updateScene() {
   sceneTitleElement.textContent = photos[index].title;
 }
 
+//Conatdor de imagenes, valora el total en el array photos y el index actual para indicar la imagen actual que ve el usaurio
 function imgCounter() {
   const sceneCounterElement = document.getElementById("sceneCounter");
   let imgTotal = photos.length;
@@ -55,6 +56,7 @@ function imgCounter() {
   sceneCounterElement.textContent = `${imgActual} / ${imgTotal}`;
 }
 
+// Resetea al estado original el mensaje de feedback, actualiza clases y texto
 function resetFeebackImage() {
   let feedbackTextElement = document.getElementById("feedbackText");
   feedbackTextElement.classList.remove("feedback__text--success");
@@ -63,11 +65,13 @@ function resetFeebackImage() {
   feedbackTextElement.textContent = "Elige una opción 👀";
 }
 
+// funcion que pinta el score
 function scoreCounter() {
   const scoreElement = document.getElementById("score");
   scoreElement.textContent = score;
 }
 
+// Function que pinta los corazones (vida actual)
 function livesHearts(lives) {
   const livesElement = document.getElementById("lives");
   const hearth = "❤️ ";
@@ -79,13 +83,37 @@ function livesHearts(lives) {
     // Aqui cuando vidas llegan a 0
     livesElement.textContent = " ";
     // Abrir modal para reiniciar todo
+    setTimeout(openGameOverModal, 500);
   }
+}
+
+//Funcion que captura y contiene funcionaldiad del modal de game over
+function gameOverModal() {
+  //captuara de elementos
+  const gameOverModalElement = document.getElementById("gameOverModal");
+  const btnRestartModal = document.getElementById("btnRestartModal");
+  const closeModal = document.getElementById("closeModal");
+
+  btnRestartModal.addEventListener("click", function () {
+    restartGame();
+    gameOverModalElement.classList.add("modal--hidden");
+  });
+
+  closeModal.addEventListener("click", function () {
+    gameOverModalElement.classList.add("modal--hidden");
+  });
+}
+
+function openGameOverModal() {
+  const gameOverModalElement = document.getElementById("gameOverModal");
+  gameOverModalElement.classList.remove("modal--hidden");
 }
 
 /******************************
  * 5) SLIDER (NAVEGACIÓN)
  ******************************/
 
+// Valida que el index no exceda de la cantiad de imagenes y que no sea menor que 0, si es mayor que la cantiad de imagenes o menor que 0 dara vuelta al ciclo
 function indexValidation() {
   if (index >= photos.length) {
     index = 0;
@@ -94,6 +122,7 @@ function indexValidation() {
   }
 }
 
+// Cambiar a la imagen anterior, resta el indice, lo valida, cambia la imagen y actualiza el contador
 function imgPrev() {
   index--;
   indexValidation();
@@ -101,6 +130,7 @@ function imgPrev() {
   imgCounter();
 }
 
+// Cambiar a la imagen siguiente, resta el indice, lo valida, cambia la imagen y actualiza el contador
 function imgNext() {
   index++;
   indexValidation();
@@ -108,10 +138,12 @@ function imgNext() {
   imgCounter();
 }
 
+// Sortea la iamgene spara que no salga siempre en el mismo orden
 function sortImages() {
   photos.sort(() => Math.random() - 0.5);
 }
 
+// Captura clicks y botone spara ejecutar las funciones de cambiar de imagen
 function changeImage() {
   const btnPrevElement = document.getElementById("btnPrev");
   const btnNextElement = document.getElementById("btnNext");
@@ -142,6 +174,7 @@ function changeImage() {
  * 6) GAME LOGIC (VALIDACIÓN)
  ******************************/
 
+// timer que cambia de imagen automatciamente cuando el usuario responde, realiza el cambio y llama a la fncion resetFeedbackImage que actualiza el estilo y texto
 function jumpToNextImg(time) {
   setTimeout(function () {
     imgNext();
@@ -149,6 +182,7 @@ function jumpToNextImg(time) {
   }, time);
 }
 
+// Obtiene la condicion de la imagen(real o IA) y lo valdia vs la respuesta del usuario
 function imageValidation(userRes) {
   let feedbackTextElement = document.getElementById("feedbackText");
   let photoIsReal = photos[index].isReal;
@@ -205,6 +239,7 @@ function imageValidation(userRes) {
   }
 }
 
+// captura respuesta del usuario (botones y teclado)
 function userRes() {
   const btnCanonElement = document.getElementById("btnCanon");
   const btnFakeElement = document.getElementById("btnFake");
@@ -236,7 +271,7 @@ function userRes() {
 /******************************
  * 7) REINICIO
  ******************************/
-
+//Funcion para reiniciar el juego y todas las variables involucradas
 function restartGame() {
   lives = 3;
   score = 0;
@@ -250,11 +285,13 @@ function restartGame() {
  * 8) INIT
  ******************************/
 
+// Ejecutar funciones cuando el documento ya ha cargado todo su contenido
 document.addEventListener("DOMContentLoaded", function () {
   restartGame();
   changeImage();
   userRes();
   scoreCounter();
+  gameOverModal();
 
   const btnRestart = document.getElementById("btnRestart");
   btnRestart.addEventListener("click", restartGame);
