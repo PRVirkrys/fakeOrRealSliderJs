@@ -180,17 +180,23 @@ function resetFeebackImage() {
   let feedbackTextElement = document.getElementById("feedbackText");
   feedbackTextElement.classList.remove("feedback__text--success");
   feedbackTextElement.classList.remove("feedback__text--error");
-  feedbackTextElement.classList.add(".feedback__text--neutral");
+  feedbackTextElement.classList.add("feedback__text--neutral");
   feedbackTextElement.textContent = "Elige una opción 👀";
+}
+
+function jumpToNextImg(time) {
+  setTimeout(function () {
+    imgNext();
+    resetFeebackImage();
+  }, time);
 }
 
 function imageValidation(userRes) {
   let feedbackTextElement = document.getElementById("feedbackText");
   let photoIsReal = photos[index].isReal;
-
+  let timToJump = 2000;
   // Foto real(true) y respuesta real(true)
   if (photoIsReal === true && userRes === true) {
-    console.log("Si es real");
     score += success;
     scoreCounter();
     feedbackTextElement.classList.add("feedback__text--success");
@@ -199,6 +205,7 @@ function imageValidation(userRes) {
       "feedback__text--success",
     );
     feedbackTextElement.textContent = "¡Correcto! Es una imagen real 📷";
+    jumpToNextImg(timToJump);
   }
   // Foto IA(false) y respuesta IA(false)
   else if (photoIsReal === false && userRes === false) {
@@ -211,6 +218,7 @@ function imageValidation(userRes) {
       "feedback__text--success",
     );
     feedbackTextElement.textContent = "¡Correcto! Está generada por IA 🤖";
+    jumpToNextImg(timToJump);
   }
   // Foto real(true) y respuesta IA(false)
   else if (photoIsReal == true && userRes == false) {
@@ -222,6 +230,7 @@ function imageValidation(userRes) {
       "feedback__text--error",
     );
     feedbackTextElement.textContent = "Incorrecto. Es una imagen real 📷";
+    jumpToNextImg(timToJump);
   }
   // Foto IA(false) y respuesta real(true)
   else if (photoIsReal == false && userRes == true) {
@@ -233,7 +242,7 @@ function imageValidation(userRes) {
       "feedback__text--error",
     );
     feedbackTextElement.textContent = "Incorrecto. Está generada por IA 🤖";
-    lives--;
+    jumpToNextImg(timToJump);
   }
 }
 
