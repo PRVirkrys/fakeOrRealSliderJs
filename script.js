@@ -275,6 +275,7 @@ function userRes() {
 function restartGame() {
   lives = 3;
   score = 0;
+  index = 0;
   imgCounter();
   sortImages();
   updateScene();
