@@ -30,10 +30,10 @@ let photos = [
 ];
 
 /******************************
- * 3) RENDER / UI (PINTAR DOM)
+ * 3) RENDER / UI (ACTUALIZACIÓN DEL DOM)
  ******************************/
 
-//Funcion que pinta y actualizar la imagen, src, alt y titulo.
+// Renderiza la imagen actual actualizando src, alt y título.
 function updateScene() {
   const sceneImageElement = document.getElementById("sceneImage");
   const sceneTitleElement = document.getElementById("sceneTitle");
@@ -44,7 +44,7 @@ function updateScene() {
   sceneTitleElement.textContent = photos[index].title;
 }
 
-//Conatdor de imagenes, valora el total en el array photos y el index actual para indicar la imagen actual que ve el usaurio
+// Calcula el total de imágenes y el índice actual para mostrar el contador.
 function imgCounter() {
   const sceneCounterElement = document.getElementById("sceneCounter");
   let imgTotal = photos.length;
@@ -52,7 +52,7 @@ function imgCounter() {
   sceneCounterElement.textContent = `${imgActual} / ${imgTotal}`;
 }
 
-// Resetea al estado original el mensaje de feedback, actualiza clases y texto
+// Resetea el mensaje de feedback al estado neutral.
 function resetFeebackImage() {
   let feedbackTextElement = document.getElementById("feedbackText");
   feedbackTextElement.classList.remove("feedback__text--success");
@@ -61,13 +61,14 @@ function resetFeebackImage() {
   feedbackTextElement.textContent = "Elige una opción 👀";
 }
 
-// funcion que pinta el score
+// Actualiza el marcador de puntuación.
 function scoreCounter() {
   const scoreElement = document.getElementById("score");
   scoreElement.textContent = score;
 }
 
-// Function que pinta los corazones (vida actual)
+// Renderiza las vidas en forma de corazones.
+// Si las vidas llegan a 0, muestra el modal de Game Over.
 function livesHearts(lives) {
   const livesElement = document.getElementById("lives");
   const hearth = "❤️ ";
@@ -76,16 +77,13 @@ function livesHearts(lives) {
     const hearthCounts = hearth.repeat(lives);
     livesElement.textContent = hearthCounts;
   } else {
-    // Aqui cuando vidas llegan a 0
     livesElement.textContent = " ";
-    // Abrir modal para reiniciar todo
     setTimeout(openGameOverModal, 500);
   }
 }
 
-//Funcion que captura y contiene funcionaldiad del modal de game over
+// Gestiona la funcionalidad del modal de Game Over.
 function gameOverModal() {
-  //captuara de elementos
   const gameOverModalElement = document.getElementById("gameOverModal");
   const btnRestartModal = document.getElementById("btnRestartModal");
   const closeModal = document.getElementById("closeModal");
@@ -100,6 +98,7 @@ function gameOverModal() {
   });
 }
 
+// Muestra el modal de Game Over.
 function openGameOverModal() {
   const gameOverModalElement = document.getElementById("gameOverModal");
   gameOverModalElement.classList.remove("modal--hidden");
@@ -109,7 +108,7 @@ function openGameOverModal() {
  * 4) SLIDER (NAVEGACIÓN)
  ******************************/
 
-// Valida que el index no exceda de la cantiad de imagenes y que no sea menor que 0, si es mayor que la cantiad de imagenes o menor que 0 dara vuelta al ciclo
+// Valida que el índice no exceda los límites del array.
 function indexValidation() {
   if (index >= photos.length) {
     index = 0;
@@ -118,7 +117,7 @@ function indexValidation() {
   }
 }
 
-// Cambiar a la imagen anterior, resta el indice, lo valida, cambia la imagen y actualiza el contador
+// Muestra la imagen anterior.
 function imgPrev() {
   index--;
   indexValidation();
@@ -126,7 +125,7 @@ function imgPrev() {
   imgCounter();
 }
 
-// Cambiar a la imagen siguiente, resta el indice, lo valida, cambia la imagen y actualiza el contador
+// Muestra la imagen siguiente.
 function imgNext() {
   index++;
   indexValidation();
@@ -134,12 +133,12 @@ function imgNext() {
   imgCounter();
 }
 
-// Sortea la iamgene spara que no salga siempre en el mismo orden
+// Mezcla aleatoriamente las imágenes.
 function sortImages() {
   photos.sort(() => Math.random() - 0.5);
 }
 
-// Captura clicks y botone spara ejecutar las funciones de cambiar de imagen
+// Captura eventos de botones y teclado para cambiar de imagen.
 function changeImage() {
   const btnPrevElement = document.getElementById("btnPrev");
   const btnNextElement = document.getElementById("btnNext");
@@ -170,7 +169,7 @@ function changeImage() {
  * 5) GAME LOGIC (VALIDACIÓN)
  ******************************/
 
-// timer que cambia de imagen automatciamente cuando el usuario responde, realiza el cambio y llama a la fncion resetFeedbackImage que actualiza el estilo y texto
+// Temporizador que cambia automáticamente de imagen tras responder.
 function jumpToNextImg(time) {
   setTimeout(function () {
     imgNext();
@@ -178,7 +177,7 @@ function jumpToNextImg(time) {
   }, time);
 }
 
-// Obtiene la condicion de la imagen(real o IA) y lo valdia vs la respuesta del usuario
+// Valida si la respuesta del usuario coincide con la condición de la imagen.
 function imageValidation(userRes) {
   let feedbackTextElement = document.getElementById("feedbackText");
   let photoIsReal = photos[index].isReal;
@@ -234,13 +233,14 @@ function imageValidation(userRes) {
   }
 }
 
-// funcion que captura la respuesta del usuario, ya sea por click en los botones o por teclado, y llama a la función de validación de imagen
+// Bloquea temporalmente botones y teclado tras responder.
 function disabledButtons() {
   const btnCanonElement = document.getElementById("btnCanon");
   const btnFakeElement = document.getElementById("btnFake");
   btnCanonElement.disabled = true;
   btnFakeElement.disabled = true;
   inputEnabled = false;
+
   setTimeout(function () {
     btnCanonElement.disabled = false;
     btnFakeElement.disabled = false;
@@ -248,7 +248,7 @@ function disabledButtons() {
   }, timToJump);
 }
 
-// captura respuesta del usuario (botones y teclado)
+// Captura la respuesta del usuario mediante botones o teclado.
 function userRes() {
   const btnCanonElement = document.getElementById("btnCanon");
   const btnFakeElement = document.getElementById("btnFake");
@@ -269,6 +269,7 @@ function userRes() {
 
   document.addEventListener("keydown", (event) => {
     if (!inputEnabled) return;
+
     if (event.key === "r" || event.key === "R") {
       userRes = true;
       imageValidation(userRes);
@@ -285,7 +286,8 @@ function userRes() {
 /******************************
  * 6) REINICIO
  ******************************/
-//Funcion para reiniciar el juego y todas las variables involucradas
+
+// Reinicia el juego y restablece todas las variables.
 function restartGame() {
   lives = 3;
   score = 0;
@@ -300,7 +302,7 @@ function restartGame() {
  * 7) INIT
  ******************************/
 
-// Ejecutar funciones cuando el documento ya ha cargado todo su contenido
+// Ejecuta las funciones iniciales cuando el DOM ha cargado completamente.
 document.addEventListener("DOMContentLoaded", function () {
   restartGame();
   changeImage();
