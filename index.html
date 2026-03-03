@@ -133,6 +133,35 @@
           </div>
         </div>
       </section>
+
+      <!-- Modal simple para Victoria -->
+      <section
+        class="modal modal--hidden"
+        id="endGameModal"
+        aria-hidden="true"
+        aria-label="End Game"
+      >
+        <div class="modal__backdrop"></div>
+        <div class="modal__panel" role="dialog" aria-modal="true">
+          <h2 class="modal__title">¡Has Ganado! 🎉</h2>
+          <h3 id="titleEndGame" class="modal__subtitle"></h3>
+          <p id="textEndGame" class="modal__text">
+            <span id="scoreEnd"></span>
+          </p>
+          <div class="modal__actions">
+            <button
+              id="btnRestartEndModal"
+              class="btn btn--primary"
+              type="button"
+            >
+              Volver a jugar
+            </button>
+            <button id="closeEndModal" class="btn btn--ghost" type="button">
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </section>
     </main>
   </body>
 </html>

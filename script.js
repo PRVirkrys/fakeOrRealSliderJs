@@ -86,14 +86,14 @@ function livesHearts(lives) {
 function gameOverModal() {
   const gameOverModalElement = document.getElementById("gameOverModal");
   const btnRestartModal = document.getElementById("btnRestartModal");
-  const closeModal = document.getElementById("closeModal");
+  const btnCloseModal = document.getElementById("closeModal");
 
   btnRestartModal.addEventListener("click", function () {
     restartGame();
     gameOverModalElement.classList.add("modal--hidden");
   });
 
-  closeModal.addEventListener("click", function () {
+  btnCloseModal.addEventListener("click", function () {
     gameOverModalElement.classList.add("modal--hidden");
   });
 }
@@ -103,6 +103,97 @@ function openGameOverModal() {
   const gameOverModalElement = document.getElementById("gameOverModal");
   gameOverModalElement.classList.remove("modal--hidden");
 }
+
+// Textos para el endGamemodal según el rango de puntuación obtenido.
+const scoreMessages = [
+  {
+    min: 100,
+    max: 100,
+    title: "👑 Maestro del pixel",
+    text: "Impecable. La IA te respeta. Ni un solo error.",
+  },
+  {
+    min: 90,
+    max: 99,
+    title: "🧠 Casi experto",
+    text: "Muy pocas te engañaron. Empiezas a entender cómo piensa la máquina.",
+  },
+  {
+    min: 70,
+    max: 89,
+    title: "🔥 Detector activado",
+    text: "Tu radar anti-IA está bastante afinado. Ya no te la cuelan tan fácil.",
+  },
+  {
+    min: 50,
+    max: 69,
+    title: "🙂 Buen ojo",
+    text: "Empiezas a notar detalles raros. Vas por buen camino.",
+  },
+  {
+    min: 30,
+    max: 49,
+    title: "😅 Sospechoso",
+    text: "Algunas las viste claras, otras te engañaron bonito.",
+  },
+  {
+    min: 0,
+    max: 29,
+    title: "💀 La IA ganó",
+    text: "Te pasó por encima esta vez… pero puedes intentarlo de nuevo.",
+  },
+];
+
+// Para comprabar si un valor esta entre dos valores
+function isBetween(n, a, b) {
+  return (n - a) * (n - b) <= 0;
+}
+
+//Asignacion de texto dinamico en el modal
+function endGameDinamicText() {
+  let endScore = score;
+  let endMessage = scoreMessages.find((message) =>
+    isBetween(endScore, message.min, message.max),
+  );
+
+  console.log(endMessage.title);
+  console.log(endMessage.text);
+  return endMessage;
+}
+//Gestiona la funcionalidad del modal de endGame
+function endGameModal() {
+  const endGameModalElement = document.getElementById("endGameModal");
+  const btnRestartModal = document.getElementById("btnRestartEndModal");
+  const btnCloseModal = document.getElementById("closeEndModal");
+  const textEndGameElement = document.getElementById("textEndGame");
+  const scoreEndElement = document.getElementById("scoreEnd");
+  const titleEndElement = document.getElementById("titleEndGame");
+
+  titleEndElement.textContent = endGameDinamicText().title;
+  textEndGameElement.insertAdjacentText(
+    "beforeBegin",
+    endGameDinamicText().text,
+  );
+  scoreEndElement.textContent = `Puntuación final: ${score}`;
+
+  btnRestartModal.addEventListener("click", function () {
+    restartGame();
+    endGameModalElement.classList.add("modal--hidden");
+  });
+
+  btnCloseModal.addEventListener("click", function () {
+    endGameModalElement.classList.add("modal--hidden");
+  });
+}
+
+// Muestra el modal de endGame
+function openEndGameModal() {
+  const endGameModalElement = document.getElementById("endGameModal");
+  endGameModalElement.classList.remove("modal--hidden");
+}
+
+// Muestra el modal al ganar el juego
+function endGame() {}
 
 /******************************
  * 4) SLIDER (NAVEGACIÓN)
@@ -309,6 +400,7 @@ document.addEventListener("DOMContentLoaded", function () {
   userRes();
   scoreCounter();
   gameOverModal();
+  endGameDinamicText();
 
   const btnRestart = document.getElementById("btnRestart");
   btnRestart.addEventListener("click", restartGame);
