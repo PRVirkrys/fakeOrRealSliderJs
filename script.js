@@ -1,9 +1,5 @@
-/***********************
- * 1) CAPTURA ELEMENTOS
- ***********************/
-
 /**********************************
- * 2) ESTADO DEL JUEGO - VARIABLES
+ * 1) ESTADO DEL JUEGO - VARIABLES
  **********************************/
 
 let lives = 3;
@@ -14,7 +10,7 @@ let timToJump = 2000;
 let inputEnabled = true;
 
 /***********************
- * 3) DATA (IMÁGENES)
+ * 2) DATA (IMÁGENES)
  ***********************/
 
 let photos = [
@@ -34,7 +30,7 @@ let photos = [
 ];
 
 /******************************
- * 4) RENDER / UI (PINTAR DOM)
+ * 3) RENDER / UI (PINTAR DOM)
  ******************************/
 
 //Funcion que pinta y actualizar la imagen, src, alt y titulo.
@@ -110,7 +106,7 @@ function openGameOverModal() {
 }
 
 /******************************
- * 5) SLIDER (NAVEGACIÓN)
+ * 4) SLIDER (NAVEGACIÓN)
  ******************************/
 
 // Valida que el index no exceda de la cantiad de imagenes y que no sea menor que 0, si es mayor que la cantiad de imagenes o menor que 0 dara vuelta al ciclo
@@ -171,7 +167,7 @@ function changeImage() {
 }
 
 /******************************
- * 6) GAME LOGIC (VALIDACIÓN)
+ * 5) GAME LOGIC (VALIDACIÓN)
  ******************************/
 
 // timer que cambia de imagen automatciamente cuando el usuario responde, realiza el cambio y llama a la fncion resetFeedbackImage que actualiza el estilo y texto
@@ -287,7 +283,7 @@ function userRes() {
 }
 
 /******************************
- * 7) REINICIO
+ * 6) REINICIO
  ******************************/
 //Funcion para reiniciar el juego y todas las variables involucradas
 function restartGame() {
@@ -301,7 +297,7 @@ function restartGame() {
 }
 
 /******************************
- * 8) INIT
+ * 7) INIT
  ******************************/
 
 // Ejecutar funciones cuando el documento ya ha cargado todo su contenido
